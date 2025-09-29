@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="UTF-8">
+ <title>Placar RPG</title>
+ <style>
+ @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Lora&display=swap');
+
+
+ body {
+   font-family: 'Lora', serif;
+   background: linear-gradient(135deg, #1a1a2e, #16213e);  
+   color: #E0E0E0;
+   text-align: center;
+   margin: 0;
+   padding: 20px;
+ }
+
+
+ h1 {
+   font-family: 'Cinzel', serif;
+   font-size: 2.5em;
+   color: #FFD700;
+   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+   margin-bottom: 20px;
+ }
+
+
+ table {
+   margin: auto;
+   border-collapse: collapse;
+   background: rgba(0, 0, 0, 0.5);
+   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+   border-radius: 8px;
+   overflow: hidden;
+   max-width: 800px;
+   width: 100%;
+ }
+
+
+ th, td {
+   padding: 12px;
+   border: 1px solid #B0C4DE;
+   text-align: center;
+   vertical-align: middle;
+   transition: all 0.3s ease;
+ }
+
+
+ th {
+   background: #FFD700;
+   color: #1a1a2e;
+   font-family: 'Cinzel', serif;
+ }
+
+
+ td div {
+   margin: 2px 0;
+   font-style: italic;
+ }
+
+
+ tr:nth-child(even) {
+   background: rgba(255, 255, 255, 0.05);
+ }
+
+
+ tr:nth-child(2) { background: rgba(255, 215, 0, 0.2); } /* 1º lugar */  
+ tr:nth-child(3) { background: rgba(192, 192, 192, 0.2); } /* 2º lugar */
+ tr:nth-child(4) { background: rgba(205, 127, 50, 0.2); } /* 3º lugar */
+
+
+ tr {
+   animation: fadeIn 0.5s ease-in;
+   transition: all 0.3s ease;
+ }
+
+
+ tr:hover {
+   background: #ffcc00 !important; /* cor chamativa */
+   color: #1a1a2e !important;      /* contraste */
+   transform: scale(1.05);         /* aumenta a linha inteira */
+   font-weight: bold;              /* destaque no texto */
+   box-shadow: 0 0 15px rgba(255, 204, 0, 0.9);
+   position: relative;
+   z-index: 1;
+   cursor: pointer;
+ }
+
+
+ @keyframes fadeIn {
+   from { opacity: 0; transform: translateY(10px); }
+   to { opacity: 1; transform: translateY(0); }
+ }
+
+
+ @media (max-width: 600px) {
+   table {
+     display: block;
+     overflow-x: auto;
+   }
+   th, td {
+     padding: 5px;
+     font-size: 0.9em;
+   }
+   tr {
+     display: block;
+     margin-bottom: 10px;
+   }
+   td {
+     display: block;
+     text-align: left;
+   }
+   td:before {
+     content: attr(data-label);
+     font-weight: bold;
+     display: block;
+   }
+   th { display: none; }
+   td[data-label="Nome"] { font-weight: bold; }
+ }
+
+   .nav-button {
+  display: inline-block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background: #FFD700;
+  color: #1a1a2e;
+  font-family: 'Cinzel', serif;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+.nav-button:hover {
+  background: #e6c200;
+  transform: scale(1.05);
+}
+
+ </style>
+</head>
+<body>
+ <a href="site2.html" class="nav-button">Ir para Galeria de Itens</a>
+ <h1>Placar da Semana</h1>
+ <table id="placar" aria-label="Placar de RPG">
+   <tr><th>Nome</th><th>Grupo</th><th>Pontos</th></tr>  
+ </table>
+
+
+ <script type="module">
+   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";  
+   import { getFirestore, collection, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+
+   const firebaseConfig = {
+     apiKey: "AIzaSyBK9Gye5RjIB6gY4edWQNGCq-aiV7qDsQQ",  
+     authDomain: "tabela-pontuacao.firebaseapp.com",
+     projectId: "tabela-pontuacao",
+     storageBucket: "tabela-pontuacao.firebasestorage.app",  
+     messagingSenderId: "694112158245",
+     appId: "1:694112158245:web:b55c03888a05c6f7aab5cc",  
+     measurementId: "G-EYBP0Z7PV6"
+   };
+
+
+   const app = initializeApp(firebaseConfig);
+   const db = getFirestore(app);
+   const q = query(collection(db, "placar"), orderBy("ponto", "desc"));
+
+
+   onSnapshot(q, (snapshot) => {
+     const tabela = document.getElementById("placar");
+     tabela.innerHTML = "<tr><th>Nome</th><th>Grupo</th><th>Pontos</th></tr>";
+
+
+     snapshot.forEach((doc) => {
+       const dado = doc.data();
+       let gruposHTML = "—";
+       if (dado.grupo) {
+         const grupos = dado.grupo.split(",");
+         gruposHTML = grupos.map(g => `<div>${g.trim()}</div>`).join("");  
+       }
+       tabela.innerHTML += `
+         <tr>
+           <td data-label="Nome">${dado.nome}</td>
+           <td data-label="Grupo">${gruposHTML}</td>
+           <td data-label="Pontos">${dado.ponto}</td>
+         </tr>`;
+     });
+   });
+ </script>
+</body>
+</html>
+
+
+

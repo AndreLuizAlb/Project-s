@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arena dos Campeões</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * { transition: background-color 0.4s ease, color 0.4s ease, transform 0.3s ease; }
+    section { opacity: 0; transform: translateY(20px); transition: all 0.6s ease; }
+    section.visible { opacity: 1; transform: translateY(0); }
+
+    /* Tema Neon */
+    .neon {
+      background: linear-gradient(to right, #1a0033, #000000) !important;
+      color: #ff69b4 !important;
+    }
+    .neon h1, .neon h2, .neon h3, .neon h4, .neon h5, .neon h6 { color: #ff69b4 !important; }
+    .neon em, .neon p { color: #ffffff !important; }
+    .neon nav a { color: #ff69b4 !important; }
+    .neon button {
+      background: #ff4081 !important; color: #fff !important; border: none;
+      border-radius: 6px; padding: 8px 16px; cursor: pointer;
+    }
+    .neon button:hover { background: #ff5c93 !important; }
+    .neon .match, .neon .player {
+      background: #2a002a !important; border: 1px solid #ff69b4 !important;
+      color: #ff69b4 !important;
+    }
+
+    /* Tema Azul Futurista */
+    .futurista {
+      background: linear-gradient(to right, #001f3f, #000000) !important;
+      color: #00c8ff !important;
+    }
+    .futurista h1, .futurista h2, .futurista h3, .futurista h4, .futurista h5, .futurista h6 { color: #00c8ff !important; }
+    .futurista em, .futurista p { color: #e6f7ff !important; }
+    .futurista nav a { color: #00c8ff !important; }
+    .futurista button {
+      background: #007bff !important; color: #fff !important; border: none;
+      border-radius: 6px; padding: 8px 16px; cursor: pointer;
+    }
+    .futurista button:hover { background: #339cff !important; }
+    .futurista #chaveamento div:not([class*="yellow"]) {
+      background: #001a33 !important; color: #00c8ff !important;
+    }
+    .futurista #chaveamento .space-y-4 > div,
+    .futurista #chaveamento .space-y-[4.5rem] > div,
+    .futurista #chaveamento .space-y-[9.5rem] > div,
+    .futurista #chaveamento .space-y-[19rem] > div {
+      background-color: #262626 !important; border: 1px solid #00c8ff !important;
+    }
+
+    /* Tema Medieval */
+    [data-theme="medieval"] {
+      --bg: #0c0a09;
+      --bg-soft: #141210;
+      --card: #1c1917;
+      --text: #fde68a;
+      --muted: #fcd34d;
+      --accent: #b45309;
+      --accent-2: #84cc16;
+    }
+    .medieval { background: var(--bg) !important; color: var(--text) !important; }
+    .medieval header { background: var(--bg-soft) !important; }
+    .medieval nav { background: var(--card) !important; }
+    .medieval .card { background: var(--card) !important; }
+    .medieval h1, .medieval h2, .medieval h3, .medieval h4, .medieval h5, .medieval h6 {
+      color: var(--text) !important;
+    }
+    .medieval .muted-text { color: var(--muted) !important; }
+    .medieval a { color: var(--muted) !important; }
+    .medieval a:hover { color: var(--text) !important; }
+    .medieval .accent-text { color: var(--accent) !important; }
+    .medieval .accent-bg { background: var(--accent) !important; }
+    .medieval .accent-2-bg { background: var(--accent-2) !important; }
+    .medieval button { background: var(--accent) !important; color: var(--bg) !important; }
+    .medieval button:hover { background: #d66411 !important; }
+    .medieval .border-accent { border: 1px solid var(--accent) !important; }
+    .medieval .border-muted { border: 1px solid var(--muted) !important; }
+  </style>
+</head>
+
+<body class="font-sans min-h-screen flex flex-col medieval" data-theme="medieval">
+  <header class="shadow-2xl">
+    <div class="max-w-6xl mx-auto flex items-center justify-between p-6 relative">
+      <div class="w-14 h-14 rounded-xl flex items-center justify-center shadow-lg bg-[var(--card)]">
+        <span class="text-xs font-bold text-[var(--text)]">Logo</span>
+      </div>
+      <div class="text-center flex-1">
+        <h1 class="text-4xl font-extrabold tracking-wide drop-shadow-lg">Arena dos Campeões</h1>
+        <p class="italic muted-text">Onde heróis e lendas se encontram</p>
+      </div>
+    </div>
+  </header>
+
+  <nav class="backdrop-blur-md p-4 sticky top-0 z-10 shadow-lg">
+    <ul class="flex space-x-6 justify-center font-semibold">
+      <li><a href="#chaveamento">Chaveamento</a></li>
+      <li><a href="#visitantes">Mural</a></li>
+      <li><a href="#historia">História</a></li>
+      <li><a href="#inscricao">Inscrição</a></li>
+    </ul>
+  </nav>
+
+  <main class="flex-grow">
+    <div class="text-center mt-6">
+      <button id="toggle-chaveamento" class="accent-bg hover:bg-[#d66411] text-[var(--bg)] font-bold py-2 px-6 rounded-lg shadow-md">
+        Mostrar Chaveamento
+      </button>
+    </div>
+
+    <!-- Chaveamento -->
+    <section id="chaveamento" class="max-w-6xl mx-auto mt-10 hidden">
+      <h2 class="text-2xl font-bold mb-6 text-center">Chaveamento do Torneio</h2>
+      <div class="grid grid-cols-4 gap-8">
+        <div class="space-y-4">
+          <div class="p-4 rounded-lg border-accent">Player 1</div>
+          <div class="p-4 rounded-lg border-accent">Player 2</div>
+          <div class="p-4 rounded-lg border-accent">Player 3</div>
+          <div class="p-4 rounded-lg border-accent">Player 4</div>
+        </div>
+        <div class="space-y-[4.5rem]">
+          <div class="p-4 rounded-lg border-accent">Vencedor 1</div>
+          <div class="p-4 rounded-lg border-accent">Vencedor 2</div>
+        </div>
+        <div class="space-y-[9.5rem]">
+          <div class="p-4 rounded-lg border-accent">Finalista</div>
+        </div>
+        <div class="space-y-[19rem]">
+          <div class="p-4 rounded-lg border-accent">Campeão</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mural de Visitantes -->
+    <section id="visitantes" class="max-w-4xl mx-auto mt-10">
+      <h2 class="text-2xl font-bold mb-6 text-center">Mural de Visitantes</h2>
+      <form id="mural-form" class="flex flex-col gap-4">
+        <input type="text" id="nome-visitante" placeholder="Seu nome" class="p-2 rounded-lg border-muted" required>
+        <textarea id="mensagem-visitante" placeholder="Deixe sua mensagem..." class="p-2 rounded-lg border-muted" required></textarea>
+        <button type="submit" class="accent-bg py-2 px-6 rounded-lg font-bold">Publicar</button>
+      </form>
+      <div id="mural-mensagens" class="mt-6 space-y-4"></div>
+    </section>
+
+    <!-- História -->
+    <section id="historia" class="max-w-4xl mx-auto mt-10 text-center">
+      <h2 class="text-2xl font-bold mb-6">A História da Arena</h2>
+      <p class="leading-relaxed">
+        Desde eras antigas, guerreiros lendários se reúnem na Arena dos Campeões para decidir quem merece o título de maior herói de todos os tempos.
+      </p>
+    </section>
+
+    <!-- Inscrição -->
+    <section id="inscricao" class="max-w-4xl mx-auto mt-10">
+      <h2 class="text-2xl font-bold mb-6 text-center">Inscreva-se no Torneio</h2>
+      <form id="inscricao-form" class="flex flex-col gap-4">
+        <input type="text" id="nome-jogador" placeholder="Nome do jogador" class="p-2 rounded-lg border-muted" required>
+        <input type="text" id="classe-jogador" placeholder="Classe (ex: Guerreiro, Mago...)" class="p-2 rounded-lg border-muted" required>
+        <button type="submit" class="accent-bg py-2 px-6 rounded-lg font-bold">Inscrever</button>
+      </form>
+      <div id="lista-inscritos" class="mt-6 space-y-2"></div>
+    </section>
+  </main>
+
+  <footer class="text-center py-6 mt-12 shadow-inner bg-[var(--card)]">
+    <p class="muted-text">Arena dos Campeões © 2025 - Todos os direitos reservados</p>
+  </footer>
+
+  <script>
+    function salvarLocalStorage(chave, dados) {
+      localStorage.setItem(chave, JSON.stringify(dados));
+    }
+    function carregarLocalStorage(chave) {
+      return JSON.parse(localStorage.getItem(chave)) || [];
+    }
+
+    // Mural de visitantes
+    const muralForm = document.getElementById("mural-form");
+    const muralMensagens = document.getElementById("mural-mensagens");
+    let mensagens = carregarLocalStorage("mural");
+
+    function renderizarMural() {
+      muralMensagens.innerHTML = "";
+      mensagens.forEach((m) => {
+        const div = document.createElement("div");
+        div.className = "p-4 rounded-lg border-muted";
+        div.innerHTML = `<strong>${m.nome}</strong>: ${m.texto}`;
+        muralMensagens.appendChild(div);
+      });
+    }
+    muralForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nome = document.getElementById("nome-visitante").value;
+      const texto = document.getElementById("mensagem-visitante").value;
+      mensagens.push({ nome, texto });
+      salvarLocalStorage("mural", mensagens);
+      renderizarMural();
+      muralForm.reset();
+    });
+    renderizarMural();
+
+    // Inscrição
+    const inscricaoForm = document.getElementById("inscricao-form");
+    const listaInscritos = document.getElementById("lista-inscritos");
+    let inscritos = carregarLocalStorage("inscritos");
+
+    function renderizarInscritos() {
+      listaInscritos.innerHTML = "";
+      inscritos.forEach((i) => {
+        const div = document.createElement("div");
+        div.className = "p-2 rounded-lg border-muted";
+        div.textContent = `${i.nome} - ${i.classe}`;
+        listaInscritos.appendChild(div);
+      });
+    }
+    inscricaoForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nome = document.getElementById("nome-jogador").value;
+      const classe = document.getElementById("classe-jogador").value;
+      inscritos.push({ nome, classe });
+      salvarLocalStorage("inscritos", inscritos);
+      renderizarInscritos();
+      inscricaoForm.reset();
+    });
+    renderizarInscritos();
+
+    // Mostrar/Ocultar chaveamento
+    const toggleChaveamento = document.getElementById("toggle-chaveamento");
+    const chaveamentoSection = document.getElementById("chaveamento");
+    toggleChaveamento.addEventListener("click", () => {
+      chaveamentoSection.classList.toggle("hidden");
+      toggleChaveamento.textContent = chaveamentoSection.classList.contains("hidden")
+        ? "Mostrar Chaveamento"
+        : "Esconder Chaveamento";
+    });
+  </script>
+</body>
+</html>

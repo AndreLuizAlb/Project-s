@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Galeria de Itens</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Lora', serif;
+      background: linear-gradient(135deg, #1a1a2e, #16213e);
+      color: #E0E0E0;
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 2.5em;
+      color: #FFD700;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      margin-bottom: 20px;
+    }
+    table {
+      margin: auto;
+      border-collapse: collapse;
+      background: rgba(0, 0, 0, 0.5);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      overflow: hidden;
+      max-width: 980px;
+      width: 100%;
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #B0C4DE;
+      text-align: left;
+      vertical-align: middle;
+    }
+    th {
+      background: #FFD700;
+      color: #1a1a2e;
+      font-family: 'Cinzel', serif;
+      text-align: center;
+    }
+    tr:nth-child(even) { background: rgba(255, 255, 255, 0.05); }
+    tr:hover {
+      background: rgba(255, 215, 0, 0.15);
+      transform: scale(1.01);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    tr { animation: fadeIn 0.5s ease-in; }
+
+    /* Imagem do item (otimizado para pixel art) */
+    .item-image {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      image-rendering: pixelated;
+      display: block;
+      margin: 0 auto;
+    }
+
+    td.description { padding-left: 10px; }
+    td.description strong { font-family: 'Cinzel', serif; color: #FFD700; }
+
+    .functionality {
+      margin-top: 10px;
+      font-style: normal;
+      font-size: 0.95em;
+      line-height: 1.6;
+      display: none; /* Esconde o texto de funcionamento por padrão */
+    }
+    .functionality.active {
+      display: block; /* Mostra o texto quando ativado */
+    }
+    .functionality strong {
+      font-family: 'Cinzel', serif;
+      color: #FFD700;
+    }
+
+    /* Estilo do botão */
+    .toggle-button {
+      background: #FFD700;
+      color: #1a1a2e;
+      font-family: 'Cinzel', serif;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9em;
+      transition: background 0.3s ease;
+    }
+    .toggle-button:hover {
+      background: #e6c200;
+    }
+
+    /* Responsivo */
+    @media (max-width: 700px) {
+      table { display: block; overflow-x: auto; }
+      th, td { padding: 10px; font-size: 0.95em; }
+      .toggle-button { padding: 6px 12px; font-size: 0.85em; }
+    }
+   .nav-button {
+  display: inline-block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background: #FFD700;
+  color: #1a1a2e;
+  font-family: 'Cinzel', serif;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease, background 0.3s ease;
+}
+.nav-button:hover {
+  background: #e6c200;
+  transform: scale(1.05);
+}
+
+
+  </style>
+</head>
+<body>
+ <a href="placar.html" class="nav-button">Voltar para o Placar</a>
+ 
+  <h1>Relíquia Perdida</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:120px;">Imagem</th>
+        <th>Descrição</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Adagas Gêmeas -->
+      <tr>
+        <td data-label="Imagem">
+          <img src="imagens/adaga_gemias.png" alt="Adagas Gêmeas" class="item-image">
+        </td>
+        <td data-label="Descrição" class="description">
+          <div>
+            <strong>Adagas Gêmeas</strong><br>
+            Um par de lâminas encantadas, forjadas no fogo dracônico e temperadas nas águas da lua cheia. Cada adaga possui uma gema que pulsa com energia mágica...
+          </div>
+          <button class="toggle-button">Mostrar Funcionamento</button>
+          <div class="functionality">
+            <strong>Funcionamento:</strong><br>
+            - Ao revelar cartas <b>3, 5 ou 7</b>, causa dano.<br>
+            - Cada acerto causa 5 de dano fixo.<br>
+            - Próxima carta ímpar: dano <b>duplicado</b>.<br>
+            - Três ímpares seguidos: <b>triplo dano</b>.
+          </div>
+        </td>
+      </tr>
+
+      <!-- Arco Solar -->
+      <tr>
+        <td data-label="Imagem">
+          <img src="imagens/arco_solar.png" alt="Arco Solar" class="item-image">
+        </td>
+        <td data-label="Descrição" class="description">
+          <div>
+            <strong>Arco Solar</strong><br>
+            Forjado a partir de fios de luz pura, o Arco Solar brilha com a energia do próprio sol. Sua corda ressoa como o som da aurora, e suas flechas de energia são capazes de atravessar até as sombras mais densas...
+          </div>
+          <button class="toggle-button">Mostrar Funcionamento</button>
+          <div class="functionality">
+            <strong>Funcionamento:</strong><br>
+            - Quando uma carta de valor <b>2, 3, 4 ou 5</b> é revelada, o Arco Solar dispara uma flecha radiante.<br>
+            - Cada acerto causa 6 de dano fixo.<br>
+            - Outros valores de carta não ativam o arco.
+          </div>
+        </td>
+      </tr>
+
+      <!-- Sopro Azul do Dragão -->
+      <tr>
+        <td data-label="Imagem">
+          <img src="imagens/sopro_azul_do_dragao.png" alt="Sopro Azul do Dragão" class="item-image">
+        </td>
+        <td data-label="Descrição" class="description">
+          <div>
+            <strong>Sopro Azul do Dragão</strong><br>
+            Um coração cristalino, envolto por asas flamejantes, que pulsa com o poder ancestral dos dragões azuis. Dizem que ele guarda a essência do sopro gélido que os dragões exalam contra seus inimigos...
+          </div>
+          <button class="toggle-button">Mostrar Funcionamento</button>
+          <div class="functionality">
+            <strong>Funcionamento:</strong><br>
+            - Este item só pode ser ativado quando o inimigo revelar uma carta <b>J</b>.<br>
+            - Ao ser ativado, o Sopro Azul do Dragão paralisa o inimigo por 2 turnos, impedindo-o de jogar cartas nesse período.<br>
+            - Durante a paralisia, o inimigo não pode atacar nem defender.
+          </div>
+        </td>
+      </tr>
+
+      <!-- Adaga Sombria -->
+      <tr>
+        <td data-label="Imagem">
+          <img src="imagens/adaga_sombria.png" alt="Adaga Sombria" class="item-image">
+        </td>
+        <td data-label="Descrição" class="description">
+          <div>
+            <strong>Adaga Sombria</strong><br>
+            Uma lâmina forjada nas trevas do submundo, envolta em energia obscura que drena a vitalidade de quem for atingido...
+          </div>
+          <button class="toggle-button">Mostrar Funcionamento</button>
+          <div class="functionality">
+            <strong>Funcionamento:</strong><br>
+            - Se o jogador revelar uma carta <b>A, 3 ou 5</b>, a adaga desfere um golpe rápido que causa 6 de dano direto.<br>
+            - Se o jogador revelar uma carta <b>7 ou 9</b>, além do golpe que causa 6 de dano, o inimigo é afetado por sangramento:<br>
+            - Duração: 3 turnos.<br>
+            - Efeito: perde 2 de vida por turno enquanto durar o sangramento.
+          </div>
+        </td>
+      </tr>
+
+      <!-- Suspiro da Morte -->
+      <tr>
+        <td data-label="Imagem">
+          <img src="imagens/suspiro_da_morte.png" alt="Suspiro da Morte" class="item-image">
+        </td>
+        <td data-label="Descrição" class="description">
+          <div>
+            <strong>Suspiro da Morte</strong><br>
+            Uma foice forjada nas profundezas do Submundo, envolta por energia roxa espectral que ecoa os lamentos das almas perdidas...
+          </div>
+          <button class="toggle-button">Mostrar Funcionamento</button>
+          <div class="functionality">
+            <strong>Funcionamento:</strong><br>
+            - Ativa ao revelar uma carta <b>10</b>.<br>
+            - Garante imunidade ao próximo ataque inimigo.<br>
+            - Após a ativação, a próxima carta revelada ganha +2 de dano se for um ataque.
+          </div>
+        </td>
+      </tr>
+
+      <!-- Lança do Crepúsculo -->
+      <tr>
+        <td data-label="Imagem">
+          <img src="imagens/lanca_crepusculo.png" alt="Lança do Crepúsculo" class="item-image">
+        </td>
+        <td data-label="Descrição" class="description">
+          <div>
+            <strong>Lança do Crepúsculo</strong><br>
+            Forjada na fronteira entre a luz e a escuridão, esta lança brilha com um fulgor púrpura que confunde os inimigos...
+          </div>
+          <button class="toggle-button">Mostrar Funcionamento</button>
+          <div class="functionality">
+            <strong>Funcionamento:</strong><br>
+            - Ativa ao revelar cartas <b>4 ou 9</b>.<br>
+            - Causa 8 de dano fixo.<br>
+            - Ignora qualquer defesa do inimigo na primeira ativação por turno.
+          </div>
+        </td>
+      </tr>
+
+      <!-- Olho que Tudo Vê -->
+      <tr>
+        <td data-label="Imagem">
+          <img src="imagens/olho_que_tudo_ve.png" alt="Olho que Tudo Vê" class="item-image">
+        </td>
+        <td data-label="Descrição" class="description">
+          <div>
+            <strong>Olho que Tudo Vê</strong><br>
+            Um artefato arcano que brilha em tons de fogo etéreo. Ela não necessita de cartas ou rituais para ser ativada...
+          </div>
+          <button class="toggle-button">Mostrar Funcionamento</button>
+          <div class="functionality">
+            <strong>Funcionamento:</strong><br>
+            - Pode ser usado antes da batalha para identificar pontos fracos e ganhar vantagens no combate.
+          </div>
+        </td>
+      </tr>
+
+      <!-- Espada Sangrenta -->
+      <tr>
+        <td data-label="Imagem">
+          <img src="imagens/sangrentra_rpg.png" alt="Espada Sangrenta" class="item-image">
+        </td>
+        <td data-label="Descrição" class="description">
+          <div>
+            <strong>Espada Sangrenta</strong><br>
+            Forjada em antigos rituais de sangue, essa lâmina maldita tem sede de vida. Cada golpe certeiro não apenas corta o inimigo, mas drena sua energia, devolvendo parte dela ao guerreiro que a empunha. Temida por muitos e desejada por poucos, a Espada Sangrenta não é apenas aço… é um fragmento vivo de guerra, sempre faminta por mais.
+          </div>
+          <button class="toggle-button">Mostrar Funcionamento</button>
+          <div class="functionality">
+            <strong>Funcionamento:</strong><br>
+            - Ativa ao revelar cartas <b>1, 5, 7 ou 10</b>.<br>
+            - Causa 8 de dano ao inimigo.<br>
+            - Concede 4 de vida ao portador por acerto.
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    // Seleciona todos os botões com a classe 'toggle-button'
+    const buttons = document.querySelectorAll('.toggle-button');
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Encontra o elemento .functionality dentro da mesma célula (td) do botão
+        const functionality = button.nextElementSibling;
+        
+        // Alterna a classe 'active' para mostrar/esconder o texto
+        functionality.classList.toggle('active');
+        
+        // Alterna o texto do botão entre "Mostrar" e "Esconder"
+        button.textContent = functionality.classList.contains('active') 
+          ? 'Esconder Funcionamento' 
+          : 'Mostrar Funcionamento';
+      });
+    });
+  </script>
+</body>
+</html>
